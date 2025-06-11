@@ -24,24 +24,20 @@ public class XeWebsite {
 
     @Given("I open the XE Property website")
     public void OpenXePropertyWebsite() {
-        // Open the site directly here
-      //  WebDriver driver = Setup.getDriver();
         driver.get("https://www.xe.gr/property/");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         assertTrue(driver.getTitle().toLowerCase().contains("xe"));
-
         homePage.clickConsentButton();
     }
 
     @Then("I set the location as {string}")
     public void setLocationForSearch(String location){
-
         homePage.setLocation(location);
     }
 
     @Given("I search properties for {string}")
     public void setPropertyTransaction(String transaction){
-        homePage.setPorpertySearch(transaction);
+        homePage.setPropertySearch(transaction);
     }
 
     @Then("I click all search results")
@@ -66,9 +62,7 @@ public class XeWebsite {
 
     @Then("I verify that the ads images are not greater than {int}")
     public void checkNumberOfImages(int number){
-       // searchPage.sortResults("Πρόσφατη ενημέρωση");
        assertTrue(searchPage.carouselPhotosCounterAllPages(number),"Fail: There are ads with more than" + number + "images in carousel");
-
     }
 
     @Then("I verify that the price is in the range of {int} to {int}")

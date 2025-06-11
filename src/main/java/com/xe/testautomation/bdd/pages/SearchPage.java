@@ -54,25 +54,24 @@ public class SearchPage {
     private WebElement phoneButton;
 
     @FindBy(className = "xe-modal-close")
-    private WebElement clossAdPopUp;
+    private WebElement closeAdPopUp;
 
 
-    // ****
-    // Method that set the price in HOmePage
-    // ****
+    /*
+     * Method that set the price range in HomePage
+     */
     public void setPriceRange(String minPrice,String maxPrice){
         WebElement priceFilterRange = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[data-testid='price-filter']")));
         WebElement priceRangeButton= priceFilterRange.findElement(By.tagName("button"));
         priceRangeButton.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         minPriceInput.sendKeys(minPrice);
         maxPriceInput.sendKeys(maxPrice);
         priceRangeButton.click();
     }
 
-    // ****
-    // Method that set the square meters in HomePage
-    // ****
+    /*
+     * Method that set the square meters in HomePage
+     */
     public void setSquareMeters(String minMeters, String maxMeters){
         WebElement sizeFilterRange = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[data-testid='size-filter']")));
         WebElement sizeRangeButton= sizeFilterRange.findElement(By.tagName("button"));
@@ -83,23 +82,29 @@ public class SearchPage {
         sizeRangeButton.click();
     }
 
-    public boolean carouselPhotosCounterSignlePage(int number){
+    /*
+     * Method that counts the images in ad carousel for a single page and checks if each
+     * ad carousel has images less or equal to the given number
+     */
+    public boolean carouselPhotosCounterSinglePage(int number){
         int counter=0 ;
         Actions actions = new Actions(driver);
-            List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
-            System.out.println("-----------------");
-            for (WebElement ad : ads) {
-                actions.moveToElement(ad).perform();
-                List<WebElement> images = ad.findElements(By.cssSelector("div[class='slick-slide']"));
-                counter = images.size() + 1;
-                if (counter > number) {
-                    return false;
-                }
-                System.out.println(counter);
+        List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
+        for (WebElement ad : ads) {
+            actions.moveToElement(ad).perform();
+            List<WebElement> images = ad.findElements(By.cssSelector("div[class='slick-slide']"));
+            counter = images.size() + 1;
+            if (counter > number) {
+                return false;
             }
+        }
         return true;
     }
 
+    /*
+     * Method that checks if the page is empty and then if there is another page
+     * If another page exists then we call carouselPhotosCounterSinglePage again
+     */
     public boolean carouselPhotosCounterAllPages(int number){
         Actions actions = new Actions(driver);
         List<WebElement> nextPageArrowDisabledList = driver.findElements(By.xpath("//a[@aria-label='Next page']/parent::li[contains(@class, 'disabled')]"));
@@ -107,7 +112,7 @@ public class SearchPage {
         if(noResultElement.isEmpty()){
             while(true){
                 nextPageArrowDisabledList = driver.findElements(By.xpath("//a[@aria-label='Next page']/parent::li[contains(@class, 'disabled')]"));
-                if(!carouselPhotosCounterSignlePage(number)){
+                if(!carouselPhotosCounterSinglePage(number)){
                     return false;
                 }
                 actions.moveToElement(nextPageArrow).perform();
@@ -121,15 +126,16 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Method that checks if price is in the given range for each ad in a Single Page
+     */
     public boolean adsPriceSinglePage(int minPrice, int maxPrice){
         Actions actions = new Actions(driver);
         List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
-        System.out.println("-----------------");
         for (WebElement ad : ads) {
             actions.moveToElement(ad).perform();
             WebElement adPrice = ad.findElement(By.cssSelector("span[data-testid='property-ad-price']"));
             String numberPart = adPrice.getText().replaceAll("[^\\d.,]", "");
-            System.out.println(numberPart);
             if(!(Integer.parseInt(numberPart)>= minPrice && Integer.parseInt(numberPart)<=maxPrice)){
                 return false;
             }
@@ -137,6 +143,10 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Method that checks if the page is not Empty and if there are more pages.
+     * If there are more than 1 pages then we call adsPriceSinglePage again
+     */
     public boolean adsPriceAllPages(int minPrice, int maxPrice) {
         Actions actions = new Actions(driver);
         List<WebElement> nextPageArrowDisabledList = driver.findElements(By.xpath("//a[@aria-label='Next page']/parent::li[contains(@class, 'disabled')]"));
@@ -158,15 +168,16 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Method that checks if square meters is in the given range for each ad in a Single Page
+     */
     public boolean adsSquareMetersSinglePage(int minMeters, int maxMeters){
         Actions actions = new Actions(driver);
         List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
-        System.out.println("-----------------");
         for (WebElement ad : ads) {
             actions.moveToElement(ad).perform();
             WebElement adSquareMeters = ad.findElement(By.cssSelector("h3[data-testid='property-ad-title']"));
             String numberPart = adSquareMeters.getText().replaceAll("[^\\d]", "");
-            System.out.println(numberPart);
             if(!(Integer.parseInt(numberPart)>= minMeters && Integer.parseInt(numberPart)<=maxMeters)){
                 return false;
             }
@@ -174,6 +185,10 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Method that checks if the page is not Empty and if there are more pages.
+     * If there are more than 1 pages then we call adsSquareMetersSinglePage again
+     */
     public boolean adsSquareMetersAllPages(int minMeters, int maxMeters){
         Actions actions = new Actions(driver);
         List<WebElement> nextPageArrowDisabledList = driver.findElements(By.xpath("//a[@aria-label='Next page']/parent::li[contains(@class, 'disabled')]"));
@@ -195,6 +210,9 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Method that sets the sorting method
+     */
     public void pressSortButton(String sortMethod){
         sortingButton.click();
 
@@ -206,21 +224,22 @@ public class SearchPage {
         }
     }
 
+    /*
+     * Method that returns true if sorting method applies correctly and false if it did not
+     */
     public boolean sortResultsByDescendingPrice(){
         Actions actions = new Actions(driver);
-       // pressSortButton(sortMethod);
+        // pressSortButton(sortMethod);
         List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
         int flagPrice= Integer.parseInt(ads.get(0).findElement(By.cssSelector("span[data-testid='property-ad-price']")).getText().replaceAll("[^\\d.,]", ""));
         for (WebElement ad : ads) {
-            System.out.println("################");
-            System.out.println(flagPrice);
             actions.moveToElement(ad).perform();
             WebElement adPrice = ad.findElement(By.cssSelector("span[data-testid='property-ad-price']"));
             String numberPart = adPrice.getText().replaceAll("[^\\d.,]", "");
-             if(Integer.parseInt(numberPart)>flagPrice){
-                  return false;
+            if(Integer.parseInt(numberPart)>flagPrice){
+                return false;
             }
-           flagPrice=Integer.parseInt(numberPart);
+            flagPrice=Integer.parseInt(numberPart);
         }
         List<WebElement> nextPageArrowDisabledList = driver.findElements(By.xpath("//a[@aria-label='Next page']/parent::li[contains(@class, 'disabled')]"));
         if(nextPageArrowDisabledList.isEmpty()) {
@@ -230,6 +249,13 @@ public class SearchPage {
         return true;
     }
 
+    /*
+     * Bonus:
+     * This method verifies for each ad in all pages that
+     *  1) the phone number is not visible if we click on the ad
+     *  2) the phone button inside the ad popup exists
+     *  3) the phone number displays in the phone pop up after clicking the phone button
+     */
     public boolean checkPhone(){
         Actions actions = new Actions(driver);
         List<WebElement> ads = driver.findElements(By.cssSelector("div.lazyload-wrapper.scroll"));
@@ -240,6 +266,7 @@ public class SearchPage {
                 boolean multipleAdsFlag=false;
                 actions.moveToElement(ad).perform();
                 if(!ad.findElements(By.cssSelector("span[data-testid='property-ads-group']")).isEmpty()) {
+                    //Check if there are multiple ads with the same content
                     if (ad.findElement(By.cssSelector("span[data-testid='property-ads-group']")).getText().equals("Πολλαπλές αγγελίες")) {
                         ad.click();
                         WebElement uniqueAd = driver.findElement(By.cssSelector("[data-testid='unique-ad-url']"));
@@ -251,7 +278,6 @@ public class SearchPage {
 
                 }
                 WebElement adPopUp = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='modal-content grid-x']")));
-               // List<WebElement> phoneList = driver.findElements(By.cssSelector("a[href^='tel:']"));
                 List<WebElement> phoneList  = driver.findElements(By.cssSelector("a[href^='tel:'] span"));
                 List<WebElement> phoneButtons  = driver.findElements(By.cssSelector("button[data-testid='call-action-button']"));
 
@@ -272,11 +298,13 @@ public class SearchPage {
                     return false;
                 }
                 List<WebElement> closeButtons = driver.findElements(By.cssSelector("div.xe-modal-title button"));
+
                 // Click the last close button in the list (lowest in DOM)
                 for (int i = closeButtons.size() - 1; i >= 0; i--) {
                     WebElement btn = closeButtons.get(i);
-                        btn.click();
+                    btn.click();
                 }
+                //Check Flag so we can close the popup of the same multiple ads window
                 if(multipleAdsFlag){
                     WebElement closeButton = driver.findElement(By.cssSelector("div.xe-modal-title button"));
                     closeButton.click();

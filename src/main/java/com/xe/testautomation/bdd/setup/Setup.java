@@ -32,7 +32,7 @@ public class Setup {
         if (scenario.getSourceTagNames().contains("@browserTearDown")) {
             if (driver != null) {
                 driver.quit();
-                driver = null;  // <--- Important to set this
+                driver = null;
                 System.out.println("Browser closed (@browserTearDown tag)");
             }
         } else {

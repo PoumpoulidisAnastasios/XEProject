@@ -41,18 +41,25 @@ public class HomePage {
     @FindBy(css = "button[data-testid='open-property-transaction-dropdown']")
     private WebElement clickPropertyTransactionButton;
 
-
+    /*
+     * Set the location in field
+     */
     public void setLocation(String location){
         WebElement locationInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("geo_place_id")));
-       locationInput.sendKeys(location);
+        locationInput.sendKeys(location);
     }
 
+    /*
+     * Click the search button
+     */
     public void clickSearchButton(){
         searchButton.click();
     }
 
+    /*
+     * Click Consent button in cookies pop up window
+     */
     public void clickConsentButton(){
-      //  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         WebElement consentInfo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("qc-cmp2-consent-info")));
         boolean consentExists = !driver.findElements(By.className("qc-cmp2-consent-info")).isEmpty();
         if(consentExists) {
@@ -60,7 +67,10 @@ public class HomePage {
         }
     }
 
-    public void setPorpertySearch(String propertyTransaction){
+    /*
+     * Set the property transaction(e.g. Ενοικίαση, Αγορά etc.)
+     */
+    public void setPropertySearch(String propertyTransaction){
         clickPropertyTransactionButton.click();
         WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.cssSelector("ul.dropdown-panel[data-testid='dropdown-panel-property-transaction']")));
@@ -76,6 +86,9 @@ public class HomePage {
         }
     }
 
+    /*
+     * Set to the field all the locations that display when search for one
+     */
     public void clickAllSearchResults(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("dropdown-container")));
 
