@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/main/resources/features",
         glue = {"com.xe.testautomation.bdd","com.xe.testautomation.bdd.steps"},
-        tags = "@SmokeTests_05",       // Run only scenarios tagged
+        tags = "@SmokeTests_01",       // Run only scenarios tagged
         plugin = {"pretty", "html:target/cucumber-report.html"},
         monochrome = true
 )

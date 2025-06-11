@@ -1,5 +1,5 @@
-@SmokeTests
-Feature: Open XE Property Website
+@SmokeTests @browserTearDown
+Feature: XE Project Smoke Tests
 
   @SmokeTests_01
   Scenario: <SmokeTests_01> Verify the prices are correct
@@ -9,7 +9,7 @@ Feature: Open XE Property Website
     Then I click all search results
     When I click search button
     Then I set the price from "200" to "700"
-    Then I set the square meters from "55" to "100"
+    Then I set the square meters from "75" to "100"
     Then I verify that the price is in the range of 200 to 700
 
   @SmokeTests_02
@@ -20,8 +20,8 @@ Feature: Open XE Property Website
     Then I click all search results
     When I click search button
     Then I set the price from "200" to "700"
-    Then I set the square meters from "55" to "100"
-    Then I verify that the square meters are in the range of 55 to 150
+    Then I set the square meters from "75" to "100"
+    Then I verify that the square meters are in the range of 75 to 150
 
   @SmokeTests_03
   Scenario: <SmokeTests_03> Verify that ads have no more than 30 photos
@@ -31,7 +31,7 @@ Feature: Open XE Property Website
     When I click all search results
     When I click search button
     When I set the price from "200" to "700"
-    When I set the square meters from "55" to "150"
+    When I set the square meters from "75" to "150"
     Then I verify that the ads images are not greater than 30
 
   @SmokeTests_04
@@ -42,12 +42,12 @@ Feature: Open XE Property Website
     When I click all search results
     When I click search button
     When I set the price from "200" to "700"
-    When I set the square meters from "55" to "150"
+    When I set the square meters from "75" to "150"
     When I click the sorting method "Τιμή (φθίνουσα)"
     Then I verify that price sorting method is descending
 
   @SmokeTests_05
-  Scenario: <SmokeTests_05> Verify that the contact phone in each ad is a clickable button is and reveals the contact phone in a pop-up if pressed. (Bonus)
+  Scenario: <SmokeTests_05> (Bonus) Verify that the contact phone in each ad is a clickable button is and reveals the contact phone in a pop-up if pressed.
     Given I open the XE Property website
     When I search properties for "Ενοικίαση"
     When I set the location as "Παγκράτι"
