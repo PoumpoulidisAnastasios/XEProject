@@ -36,7 +36,7 @@ Once the project is opened in your IDE, install all dependencies using Maven.
 ### ✅ Run the following command in your terminal (in the root directory of the project):
 
 ```bash
-mvn clean install
+mvn clean install -DskipTests
 ```
 
 ## Overview
