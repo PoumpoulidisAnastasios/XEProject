@@ -27,7 +27,6 @@ Open your terminal or Git Bash and run:
 
 ```bash
 git clone https://github.com/PoumpoulidisAnastasios/XEProject.git
-cd your-selenium-project
 ```
 ## ⚙️ 3. Install Dependencies with Maven
 
