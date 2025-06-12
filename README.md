@@ -132,7 +132,7 @@ The last test (`@SmokeTests_05`) often fails due to the absence of the expected 
 After running the test suite, a detailed report is generated.
 
 > **ℹ️ Note:** To view the test report, open the generated file `index.html` located inside the `cucumber-html-reports` folder using any web browser.
-> My Test Run Report will be uploaded(TestRun.html).
+> My Test Run Report will be uploaded(TestReport.pdf).
 
 ## HomePage Methods
 
